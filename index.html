@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Agrotools - Questionário</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="fnQuestionario.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button onclick="createNewQuestion();" class="btn btn-success">Criar Questionário</button>
+    <button onclick="addNewItem();getLocation();" class="btn btn-success">Responder Questionário</button>
+    <button onclick="viewItems();" class="btn btn-primary">Resultados</button>
+    <!--<button onclick="exportItems();" class="btn btn-warning">Exportar Dados</button>-->
+
+    <table border="5">
+        <tr>
+            <td style="padding-left:20px;">
+                <div id="divAddNewItem" style="display:none;">
+                    <h4 id="addEditHeader">Adicionar Item</h4>
+                    <br />
+
+
+                    <table id="divGrid" class="table table-striped table-bordered table-hover">
+
+                        <tr>
+                            <td>
+                                <label>Título</label>
+                            </td>
+                            <td>
+                                <input type="text" id="initial" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <label>Usuário</label>
+                            </td>
+                            <td>
+                                <input type="text" id="name" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>Data Cadastro</label>
+                            </td>
+                            <td>
+                                <input type="text" id="dob" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>Cidade</label>
+                            </td>
+                            <td>
+                                <input type="text" id="city" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <label>Telefone</label>
+                            </td>
+                            <td>
+                                <input type="text" id="mobile" />
+                            </td>
+                        </tr>
+
+
+                        <!-- <tr style="visibility:hidden;">
+                            <td>
+                                <label>Children</label>
+                            </td>
+                            <td>
+                                <button onclick="addChildren();">Add Children</button>
+                                <table style="width:100%" id="tblChildren"></table>
+                            </td>
+                        </tr> -->
+                        <tr style="visibility: hidden;">
+                            <td>
+                                <input type="text" id="lat" />
+                                <input type="text" id="lon" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-success" onclick="saveNewItem();">Save</button>
+                                        </td>
+                                        <td style="width:5px;"></td>
+                                        <td>
+                                            <button class="btn btn-warning" onclick="cancelNewItem();">Cancel</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+</body>
+</html>
