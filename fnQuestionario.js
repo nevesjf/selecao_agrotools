@@ -10,18 +10,18 @@
             name: "first",
             dob: (today.getDate()) + "/" + (today.getMonth()+1) + "/" + (today.getFullYear()), //"",
             jobtype: "",
-            //annualincome: 0,
+            annualincome: 0,
             city: "",
             mobile: 0,
             children: {
                 "child1": 0
             },
-            // twowheelers: {
-            //     "twowheeler1": ''
-            // },
-            // fourwheelers: {
-            //     "fourwheeler1": ''
-            // }
+            twowheelers: {
+                "twowheeler1": ''
+            },
+            fourwheelers: {
+                "fourwheeler1": ''
+            }
             //isinsured: ''
             //whynoinsurance: '',
             //whenplanforinsurance: ''
@@ -30,7 +30,7 @@
     }
 
 
-
+   
 
     //Four start
 
@@ -50,7 +50,40 @@
         $('#tblFourwheeler').append('<tr id="tblFourwheeler' + fourWheelerCount + '"><td><input id = "fourwheelername' + fourWheelerCount + '" type ="text" /></td>  <td><input id ="fourwheelerinsurancedate' + fourWheelerCount + '"  type ="date" /></td>  <td><input type = "button" value = "X" onClick="removeTheFourWheeler(' + fourWheelerCount + ');" /></td></tr>');
     }
 
+    function removeTheFourWheeler(fourWheelerIndex) {
+        var totalFourWheelers = getFourWheelers();
+        $("#tblFourwheeler tr").remove();
+        addFourWheelerHeader();
 
+        var fourWheelerCount = 1;
+        var tempCount = 1;
+        for (var childrenLoop = 0; childrenLoop < totalFourWheelers.length; childrenLoop++) {
+            var fourwheelername = totalFourWheelers[childrenLoop].fourwheelername;
+            var fourwheelerinsurancedate = totalFourWheelers[childrenLoop].fourwheelerinsurancedate;
+            if (tempCount != fourWheelerIndex) {
+                appendFourWheelerRows(fourWheelerCount);
+                $('#fourwheelername' + fourWheelerCount).val(fourwheelername);
+                $('#fourwheelerinsurancedate' + fourWheelerCount).val(fourwheelerinsurancedate);
+                fourWheelerCount++;
+            }
+            tempCount++;
+        }
+    }
+
+    function getFourWheelers() {
+        var fourwheelers = [];
+        var i = 0;
+        var t = document.getElementById('tblFourwheeler');
+        $("#tblFourwheeler tr").each(function () {
+            if (i != 0) {
+                var fourwheelername = $(this).find("#fourwheelername" + i).val();
+                var fourwheelerinsurancedate = $(this).find("#fourwheelerinsurancedate" + i).val();
+                fourwheelers.push({ fourwheelername: fourwheelername, fourwheelerinsurancedate: fourwheelerinsurancedate });
+            }
+            i++;
+        });
+        return fourwheelers;
+    }
 
     //Four over
 
@@ -88,10 +121,9 @@
             return Math.floor((Math.random() * 10000000000) + 1);
         } else if (returnType == 'numberOfChildren') {
             return Math.floor((Math.random() * 5) + 1);
-        // } else if (returnType == 'numberOfTwoWheelers') {
-        //     return Math.floor((Math.random() * 5) + 1);
-         }
-
+        } else if (returnType == 'numberOfTwoWheelers') {
+            return Math.floor((Math.random() * 5) + 1);
+        }
     }
     function uuidv4() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -115,14 +147,46 @@
         $('#tbl2wheeler').append('<tr id="twoWheeler' + twowheelerCount + '"><td><input id = "twowheelername' + twowheelerCount + '" type ="text" /></td>  <td><input id ="twowheelerinsurancedate' + twowheelerCount + '"  type ="date" /></td>  <td><input type = "button" value = "X" onClick="removeThe2Wheeler(' + twowheelerCount + ');" /></td></tr>');
     }
 
+    function removeThe2Wheeler(twoWheelerIndex) {
+        var totalTwoWheelers = getTwoWheelers();
+        $("#tbl2wheeler tr").remove();
+        add2WheelerHeader();
+
+        var twowheelerCount = 1;
+        var tempCount = 1;
+        for (var childrenLoop = 0; childrenLoop < totalTwoWheelers.length; childrenLoop++) {
+            var cName = totalTwoWheelers[childrenLoop].twowheelername;
+            var cAge = totalTwoWheelers[childrenLoop].twowheelerinsurancedate;
+            if (tempCount != twoWheelerIndex) {
+                $('#tbl2wheeler').append('<tr id="twoWheeler' + twowheelerCount + '"><td><input id = "twowheelername' + twowheelerCount + '" type ="text" /></td>  <td><input id ="twowheelerinsurancedate' + twowheelerCount + '"  type ="date" /></td>  <td><input type = "button" value = "X" onClick="removeThe2Wheeler(' + twowheelerCount + ');" /></td></tr>');
+                $('#twowheelername' + twowheelerCount).val(cName);
+                $('#twowheelerinsurancedate' + twowheelerCount).val(cAge);
+                twowheelerCount++;
+            }
+            tempCount++;
+        }
+    }
 
 
+    function getTwoWheelers() {
+        var twowheelers = [];
+        var i = 0;
+        var t = document.getElementById('tbl2wheeler');
+        $("#tbl2wheeler tr").each(function () {
+            if (i != 0) {
+                var twowheelername = $(this).find("#twowheelername" + i).val();
+                var twowheelerinsurancedate = $(this).find("#twowheelerinsurancedate" + i).val();
+                twowheelers.push({ twowheelername: twowheelername, twowheelerinsurancedate: twowheelerinsurancedate });
+            }
+            i++;
+        });
+        return twowheelers;
+    }
 
 
     function showLocation(position) {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-        //alert("Latitude : " + latitude + " Longitude: " + longitude);
         document.getElementById("lat").value = latitude;
         document.getElementById("lon").value = longitude;
 
@@ -135,11 +199,11 @@
            alert("Error: Position is unavailable!");
         }
     }
-
+        
     function getLocation() {
 
         if(navigator.geolocation) {
-
+           
            // timeout at 60000 milliseconds (60 seconds)
            var options = {timeout:60000};
            latlong = navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
@@ -174,19 +238,19 @@
 
     }
     function exportItems() {
-        //var restoredSurv = JSON.parse(localStorage.getItem(localStorageName));
+        var restoredSurv = JSON.parse(localStorage.getItem(localStorageName));
 
-        //if (restoredSurv != null) {
-        //    var txtFile = "/tmp/test.txt";
-        //    var file = new File(txtFile, "write");
-        //    var str = JSON.stringify(restoredSurv);
+        if (restoredSurv != null) {
+           var txtFile = "/tmp/test.txt";
+           var file = new File(txtFile, "write");
+           var str = JSON.stringify(restoredSurv);
 
-        //    log("opening file...");
-        //    file.open();
-        //    log("writing file..");
-        //    file.writeline(str);
-        //    file.close();
-        //}
+           log("opening file...");
+           file.open();
+           log("writing file..");
+           file.writeline(str);
+           file.close();
+        }
     }
     function clearItems() {
         var surItems =
@@ -225,11 +289,11 @@
                 dob: (today.getDate()) + "/" + (today.getMonth()+1) + "/" + (today.getFullYear()), //getObj('dob').value,
                 jobtype: getJobType(),
 
-                //annualincome: getObj('annualincome').value,
+                annualincome: getObj('annualincome').value,
 
-                //twowheelers: getTwoWheelers(),
+                twowheelers: getTwoWheelers(),
 
-                //fourwheelers: getFourWheelers(),
+                fourwheelers: getFourWheelers(),
 
                 isinsured: getIsInsured(),
                 //whynoinsurance: getObj('whynoinsurance').value,
@@ -250,9 +314,9 @@
                             restoredSurv.queue[i].dob = (today.getDate()) + "/" + (today.getMonth()+1) + "/" + (today.getFullYear()); //getObj('dob').value;
                             restoredSurv.queue[i].jobtype = getJobType();
 
-                            //restoredSurv.queue[i].twowheelers = getTwoWheelers();
+                            restoredSurv.queue[i].twowheelers = getTwoWheelers();
 
-                            //restoredSurv.queue[i].fourwheelers = getFourWheelers();
+                            restoredSurv.queue[i].fourwheelers = getFourWheelers();
 
                             restoredSurv.queue[i].isinsured = getIsInsured();
                             //restoredSurv.queue[i].whynoinsurance = getObj('whynoinsurance').value;
@@ -331,17 +395,17 @@
 
 
 
-                    outputs += "<th>Título</th>";
-                    outputs += "<th>Usuário</th>";
+                    outputs += "<th>Initial</th>";
+                    outputs += "<th>Name</th>";
 
 
-                    outputs += "<th>Cidade</th>";
-                    outputs += "<th>Telefone</th>";
+                    outputs += "<th>City</th>";
+                    outputs += "<th>Mobile</th>";
                     outputs += "<th>Latitude</th>";
                     outputs += "<th>Longitude</th>";
 
-                    outputs += "<th>Editar</th>";
-                    outputs += "<th>Remover</th>";
+                    outputs += "<th>Edit</th>";
+                    outputs += "<th>Delete</th>";
 
                     outputs += "</tr>";
                 }
@@ -365,14 +429,14 @@
                 if (restoredSurv.queue.length > 1) {
                     outputs += "</table>";
                 }
-
+               // document.getElementById("divGrid").innerHTML = outputs;
             }
         }
-
+        console.log("Aqui"+JSON.stringify(restoredSurv));
     }
 
     function deleteItem(arrayPosition) {
-        if (confirm('Quer deletar esse item?')) {
+        if (confirm('Are you sure to delete this record?')) {
             var restoredSurv = JSON.parse(localStorage.getItem(localStorageName));
             var surItems =
                 {
@@ -422,9 +486,9 @@
                         $('#dob').val(restoredSurv.queue[i].dob);
 
 
-                        //$('#annualincome').val(restoredSurv.queue[i].annualincome);
+                        $('#annualincome').val(restoredSurv.queue[i].annualincome);
 
-
+                        
 
                         $('#city').val(restoredSurv.queue[i].city);
                         $('#mobile').val(restoredSurv.queue[i].mobile);
@@ -456,22 +520,35 @@
 
                         var twowheelerCount = 1;
                         add2WheelerHeader();
-                        // for (var childrenLoop = 0; childrenLoop < restoredSurv.queue[i].twowheelers.length; childrenLoop++) {
-                        //     //alert(restoredSurv.queue[i].children[childrenLoop].childName);
-                        //     var twowheelername = restoredSurv.queue[i].twowheelers[childrenLoop].twowheelername;
-                        //     var twowheelerinsurancedate = restoredSurv.queue[i].twowheelers[childrenLoop].twowheelerinsurancedate;
-                        //
-                        //     $('#tbl2wheeler').append('<tr id="twoWheeler' + twowheelerCount + '"><td><input id = "twowheelername' + twowheelerCount + '" type ="text" /></td>  <td><input id ="twowheelerinsurancedate' + twowheelerCount + '"  type ="date" /></td>  <td><input type = "button" value = "X" onClick="removeThe2Wheeler(' + twowheelerCount + ');" /></td></tr>');
-                        //
-                        //     //$('#tblChildren').append('<tr id="children' + childrenCount + '"><td><input id = "childName' + childrenCount + '" type ="text"  /></td><td><input id ="childAge' + childrenCount + '" style="width:20px;" type ="text" /></td></tr>');
-                        //     $('#twowheelername' + twowheelerCount).val(twowheelername);
-                        //     $('#twowheelerinsurancedate' + twowheelerCount).val(twowheelerinsurancedate);
-                        //     twowheelerCount++;
-                        // }
+                        for (var childrenLoop = 0; childrenLoop < restoredSurv.queue[i].twowheelers.length; childrenLoop++) {
+                            //alert(restoredSurv.queue[i].children[childrenLoop].childName);
+                            var twowheelername = restoredSurv.queue[i].twowheelers[childrenLoop].twowheelername;
+                            var twowheelerinsurancedate = restoredSurv.queue[i].twowheelers[childrenLoop].twowheelerinsurancedate;
 
+                            $('#tbl2wheeler').append('<tr id="twoWheeler' + twowheelerCount + '"><td><input id = "twowheelername' + twowheelerCount + '" type ="text" /></td>  <td><input id ="twowheelerinsurancedate' + twowheelerCount + '"  type ="date" /></td>  <td><input type = "button" value = "X" onClick="removeThe2Wheeler(' + twowheelerCount + ');" /></td></tr>');
 
+                            //$('#tblChildren').append('<tr id="children' + childrenCount + '"><td><input id = "childName' + childrenCount + '" type ="text"  /></td><td><input id ="childAge' + childrenCount + '" style="width:20px;" type ="text" /></td></tr>');
+                            $('#twowheelername' + twowheelerCount).val(twowheelername);
+                            $('#twowheelerinsurancedate' + twowheelerCount).val(twowheelerinsurancedate);
+                            twowheelerCount++;
+                        }
 
+                        $("#tblFourwheeler tr").remove();
+                        addFourWheelerHeader();
+                        var fourWheelerCount = 1;
 
+                        for (var childrenLoop = 0; childrenLoop < restoredSurv.queue[i].fourwheelers.length; childrenLoop++) {
+                            var fourwheelername = restoredSurv.queue[i].fourwheelers[childrenLoop].fourwheelername;
+                            var fourwheelerinsurancedate = restoredSurv.queue[i].fourwheelers[childrenLoop].fourwheelerinsurancedate;
+
+                            appendFourWheelerRows(fourWheelerCount);
+
+                            $('#fourwheelername' + fourWheelerCount).val(fourwheelername);
+                            $('#fourwheelerinsurancedate' + fourWheelerCount).val(fourwheelerinsurancedate);
+                            fourWheelerCount++;
+                        }
+
+                        
 
 
 
@@ -488,7 +565,7 @@
         $('#tbl2wheeler').append('<tr><th>Two Wheeler</th><th>Next Insurance date</th></tr>');
     }
     function addNewItem() {
-
+        
 
         IsEdit = false;
         currentEditArrayPosition = 0;
@@ -497,13 +574,13 @@
         $("#tbl2wheeler tr").remove();
         $("#tblFourwheeler tr").remove();
 
-
+        
 
         addChildTableHeader();
         add2WheelerHeader();
         addFourWheelerHeader();
 
-
+        
 
 
         var existing = localStorage.getItem(localStorageName);
@@ -521,7 +598,7 @@
 
         getObj('divAddNewItem').style.display = "block";
         //getObj('divGrid').style.display = "none";
-
+        
 
     }
 
